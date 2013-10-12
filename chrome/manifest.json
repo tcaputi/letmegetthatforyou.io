@@ -1,0 +1,18 @@
+{
+  "name": "Accio",
+  "manifest_version": 2,
+  "description": "The personal file courier for Google Chrome.",
+  "version": "0.1",
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+  	"pushMessaging"
+  ]
+}
