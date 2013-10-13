@@ -8,7 +8,7 @@ module.exports.bind = function (app) {
 		MongoClient.connect(DB_URL, function(err, db) {
 			if(err) throw err;
 			var collection = db.collection(SCHEMA);
-			collection.update({googleId : req.body.googleId}, {$push: {devices: {chromeInstanceId: req.body.chromeInstanceId, name: req.body.name}}}, function(err, docs) {
+			collection.update({googleId : req.param('googleId')}, {$push: {devices: {chromeInstanceId: req.param('chromeInstanceId'), name: req.param('name')}}}, function(err, docs) {
 				if(err) throw err;
 				console.log(docs);
 				res.send(200, JSON.stringify(docs));

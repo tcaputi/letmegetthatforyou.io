@@ -22,11 +22,15 @@ module.exports.bind = function (app) {
 		var queryString = qs.stringify({
 			response_type: 'code',
 			client_id: CLIENT_ID,
-			scope: 'https://www.googleapis.com/auth/userinfo.email',
+			scope: 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/gcm_for_chrome',
 			state: md5((new Date()).getTime() + Math.floor((Math.random()*100)+1) + 'thing'),
 			redirect_uri: 'http://' + SERVER_URL + '/google/redir'
 		});
 		res.redirect(GOOGLE_OAUTH_AUTH_URL + '?' + queryString);
+    });
+	
+	app.get('/session', function (req, res) {
+		res.json(req.session);
     });
 	
     app.get('/google/redir', function (req, res) {
@@ -59,32 +63,37 @@ module.exports.bind = function (app) {
                 } else {
                     // Successfully got the token, lets boogie
 					var payload = JSON.parse(body);
+					console.log(payload.token_type);
+					req.session.accessToken = payload.access_token;
 					request({
 						url: GOOGLE_OAUTH_PROFILE_URL,
 						headers: {
 							"Content-Type" : "application/json",
 							"Authorization" : "OAuth " + payload.access_token
 						}}, function(error, response, body){
-						
+						console.log('body: ' + body)
+						var innerPayload = JSON.parse(body);
+						req.session.googleId = innerPayload.email.replace("@gmail.com", "");
+							
 						MongoClient.connect(DB_URL, function(err, db) {
 							if(err) throw err;
 							var collection = db.collection(SCHEMA);
-							collection.findOne({googleId : body.email.replace("@gmail.com", "")}, function(err, docs) {
+							collection.findOne({googleId : innerPayload.email.replace("@gmail.com", "")}, function(err, docs) {
 								if(err) throw err;
 								if(docs){
 									docs.access_token = payload.access_token;
 									collection.save(docs, function(err, updatedDoc) {
 										if(err) throw err;
-										console.log(updatedDoc);
-										res.send(200, updatedDoc);
+										console.log(docs);
+										res.redirect('/');
 										db.close();
 									});
 								}else{
-									var newUser = {googleId : body.email.replace("@gmail.com", ""), accessToken : payload.access_token, devices : []}; 
+									var newUser = {googleId : req.session.googleId, accessToken : payload.access_token, devices : []}; 
 									collection.save(newUser, function(err, docs) {
 										if(err) throw err;
-										console.log(docs);
-										res.send(200, newUser);
+										console.log(newUser);
+										res.redirect('/');
 										db.close();
 									});
 								}
