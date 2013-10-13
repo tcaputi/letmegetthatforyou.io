@@ -4,10 +4,10 @@ var request = require('request');
 var md5 = require('MD5');
 
 //TODO: FIX FOR GOOGLE
-var CLIENT_ID = '1073639428455.apps.googleusercontent.com';
-var APP_SECRET = '3Vdw2hGjC7XXDWpvPEArpd_G';
+var CLIENT_ID = '1073639428455-4i31qgcbhon7dvstd9r6efeo7rhcsedl.apps.googleusercontent.com';
+var APP_SECRET = 'TdJQNp1INvQHdCINUiQbR6PZ';
 var GOOGLE_OAUTH_AUTH_URL = 'https://accounts.google.com/o/oauth2/auth';
-var GOOGLE_OAUTH_TOKEN_URL = 'https://www.googleapis.com/oauth2/v1/tokeninfo';
+var GOOGLE_OAUTH_TOKEN_URL = 'https://accounts.google.com/o/oauth2/token';
 var SERVER_URL = 'pooter.sandile.me:7373';
 
 var DB_URL = 'mongodb://pooter.sandile.me:27017/data';
@@ -30,16 +30,15 @@ module.exports.bind = function (app) {
 					if(err) res.json(500, err);
 					else if(!docs) res.json(500, docs);
 					else{
-						//TODO: FIX FOR GOOGLE
+						req.session.userId = userId;
 						var queryString = qs.stringify({
 							response_type: 'code',
 							client_id: CLIENT_ID,
-							scope: 'openid, email', //TODO:
+							scope: 'https://www.googleapis.com/auth/userinfo.email',
 							state: md5((new Date()).getTime() + Math.floor((Math.random()*100)+1) + 'thing'),
-							redirect_uri: 'http://' + SERVER_URL + '/google/redir/' + userId
+							redirect_uri: 'http://' + SERVER_URL + '/google/redir'
 						});
-						console.log('qs: ' + queryString);
-						res.redirect(GOOGLE_OAUTH_AUTH_URL + '/?' + queryString);
+						res.redirect(GOOGLE_OAUTH_AUTH_URL + '?' + queryString);
 						db.close();
 					}
 				});
@@ -47,9 +46,9 @@ module.exports.bind = function (app) {
         }
     });
 	
-    app.get('/google/redir/:userId', function (req, res) {
+    app.get('/google/redir', function (req, res) {
         var code = req.param('code');
-        var userId = req.param('userId');
+        var userId = req.session.userId;
         if (!code) {
             console.log('[ERROR] the code parameter from google/redir was null....');
             res.send(500, "[ERROR] the code parameter from google/redir was null....");
@@ -62,13 +61,14 @@ module.exports.bind = function (app) {
             // Go ahead with REST logic
             request({
                 url: GOOGLE_OAUTH_TOKEN_URL,
-                qs: {
+                form: {
                     client_id: CLIENT_ID,
                     client_secret: APP_SECRET,
                     grant_type: 'authorization_code',
-					redirect_uri: 'http://' + SERVER_URL + '/google/redir/' + userId,
+					redirect_uri: 'http://' + SERVER_URL + '/google/redir',
                     code: code
-                }
+                },
+				method: 'POST'
             }, function (error, response, body) {
                 if (error || response.statusCode == 500) {
                     console.log('[ERROR] google auth: ' + error);
@@ -76,18 +76,14 @@ module.exports.bind = function (app) {
                 } else {
                     // Successfully got the token, lets boogie
 					var payload = JSON.parse(body);
-					
 					MongoClient.connect(DB_URL, function(err, db) {
 						if(err) throw err;
 						var collection = db.collection(SCHEMA);
 						collection.update({googleId : req.body.googleId}, {$set: {accessToken: payload.access_token}}, function(err, docs) {
 							if(err) throw err;
-							console.log(docs);
 							res.send(200, JSON.stringify(docs));
 							db.close();
-							
-							console.log('worked ' + payload.access_token);
-							res.redirect('http://www.google.com');
+							res.send(200,"success); //TODO add userId to query
 						});
 					})
                 }

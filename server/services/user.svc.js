@@ -7,6 +7,10 @@ module.exports.bind = function (app) {
 	app.get("/user/:id", function(req, res){
 		MongoClient.connect(DB_URL, function(err, db) {
 			if(err) throw err;
+			if(!req.session.userId) {
+				res.send(401, { msg : 'not authorized'});
+				return;
+			}
 			var collection = db.collection(SCHEMA);
 			collection.findOne({googleId : req.param("id")}, function(err, docs) {
 				if(err) throw err;
