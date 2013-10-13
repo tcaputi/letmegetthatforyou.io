@@ -35,8 +35,8 @@ module.exports.bind = function (app) {
 							response_type: 'code',
 							client_id: CLIENT_ID,
 							scope: 'openid, email', //TODO:
-							state: md5((new Date()).now() + Math.floor((Math.random()*100)+1) + 'thing'),
-							redirect_uri: 'http://' + SERVER_URL + ':' + app.get('port') + '/google/redir/' + userId
+							state: md5((new Date()).getTime() + Math.floor((Math.random()*100)+1) + 'thing'),
+							redirect_uri: 'http://' + SERVER_URL + '/google/redir/' + userId
 						});
 						console.log('qs: ' + queryString);
 						res.redirect(GOOGLE_OAUTH_AUTH_URL + '/?' + queryString);
@@ -66,7 +66,7 @@ module.exports.bind = function (app) {
                     client_id: CLIENT_ID,
                     client_secret: APP_SECRET,
                     grant_type: 'authorization_code',
-					redirect_uri: 'http://' + SERVER_URL + ':' + app.get('port') + '/google/redir/' + userId,
+					redirect_uri: 'http://' + SERVER_URL + '/google/redir/' + userId,
                     code: code
                 }
             }, function (error, response, body) {
