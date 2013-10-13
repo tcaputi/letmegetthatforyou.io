@@ -18,7 +18,7 @@ module.exports.bind = function (app) {
 				res.send(200, JSON.stringify(docs));
 				db.close();
 			});
-		})
+		});
 	});
 
 	app.post("/user/new", function(req, res){
@@ -45,6 +45,6 @@ module.exports.bind = function (app) {
 				res.send(200, JSON.stringify(docs));
 				db.close();
 			});
-		})
+		});
 	});
 }

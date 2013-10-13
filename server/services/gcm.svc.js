@@ -1,6 +1,6 @@
 var gcm = require('node-gcm');
 
-var SERVER_API_KEY = ''; //TODO
+var SERVER_API_KEY = 'AIzaSyCZ2pqU3UQtlxGtcPUQnuO2OXfHt1obpLw';
 
 module.exports.bind = function (app) {
 	app.get("/push/ls", function(req, res){
