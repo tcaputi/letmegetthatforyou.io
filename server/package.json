@@ -5,6 +5,8 @@
   "dependencies": {
 	"request": "*",
     "express": "*",
-    "mongodb": "*"
+	"querystring": "*",
+    "mongodb": "*",
+	"MD5": "*"
   }
 }

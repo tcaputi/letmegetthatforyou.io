@@ -13,8 +13,8 @@ module.exports.bind = function (app) {
 				console.log(docs);
 				res.send(200, JSON.stringify(docs));
 				db.close();
-		 });
-	  })
+			});
+		})
 	});
 	
 	app.delete("/user/device/remove", function(req, res){
@@ -26,7 +26,7 @@ module.exports.bind = function (app) {
 				console.log(docs);
 				res.send(200, JSON.stringify(docs));
 				db.close();
-		 });
-	  })
+			});
+		})
 	});
 }

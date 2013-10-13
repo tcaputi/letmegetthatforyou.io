@@ -13,21 +13,21 @@ module.exports.bind = function (app) {
 				console.log(docs);
 				res.send(200, JSON.stringify(docs));
 				db.close();
-		 });
-	  })
+			});
+		})
 	});
 
 	app.post("/user/new", function(req, res){
 		MongoClient.connect(DB_URL, function(err, db) {
 			if(err) throw err;
 			var collection = db.collection(SCHEMA);
-			collection.save({googleId : req.body.googleId, devices : []}, function(err, docs) {
+			collection.save({googleId : req.body.googleId, accessToken : null, devices : []}, function(err, docs) {
 				if(err) throw err;
 				console.log(docs);
 				res.send(200, JSON.stringify(docs));
 				db.close();
-		 });
-	  })
+			});
+		})
 	});
 	
 	//debuging only
@@ -40,7 +40,7 @@ module.exports.bind = function (app) {
 				console.log(docs);
 				res.send(200, JSON.stringify(docs));
 				db.close();
-		 });
-	  })
+			});
+		})
 	});
 }
