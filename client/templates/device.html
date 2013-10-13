@@ -1,0 +1,22 @@
+<div class="container" style="text-align:center;">
+
+  <div class="page-header">
+    <h1>Select a device</h1>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Device</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="device in devices">
+        <td>
+          <a ng-click="chooseDevice($index)"><span class="glyphicon glyphicon-hdd" style="margin-right:10px;"> </span>Computer 1</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div> <!-- /container -->

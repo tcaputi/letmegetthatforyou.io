@@ -7,13 +7,23 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../assets/ico/favicon.png">
 
-    <title>LetMeGetThatForYou.IO</title>
+    <title>Select Device | LetMeGetThatForYou.IO</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="signin.css" rel="stylesheet">
+    <!-- Jquery -->
+    <script src="js/jquery.js"></script>
+
+
+    <!-- Boottrap core js-->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- AngularJS -->
+    <script src="js/angular.min.js"></script>
+    <script src="js/controllers.js"></script>
+    
+    
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -22,34 +32,34 @@
     <![endif]-->
   </head>
 
-  <body>
+  <body ng-app="lmgtfyModule" >
 
     <nav class="navbar navbar-inverse" role="navigation">
-  <!-- Brand and toggle get grouped for better mobile display -->
-  <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    <a class="navbar-brand" href="#">LetMeGetThatForYou.IO</a>
-  </div>
-
- 
-  </div><!-- /.navbar-collapse -->
-</nav>
-
-    <div class="container" style="text-align:center;">
-
-      <div class="page-header">
-        <h1>LetMeGetThatForYou.IO <small>Get your desktop files anywhere using chrome</small></h1>
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">LetMeGetThatForYou.IO</a>
       </div>
 
-      <button class="btn btn-primary btn-lg">Log In With Google</button>
+     
+      </div><!-- /.navbar-collapse -->
+    </nav>
 
-    </div> <!-- /container -->
-
+    <div ng-view>
+        <div class="container" style="height:400px;">
+          <h1>
+            Well this was unexpected...
+          </h1>
+          <div class="alert alert-danger">
+            Its seems that there was an error or with your Javascript is turned off.
+          </div>
+        </div>
+    </div>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
