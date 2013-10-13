@@ -66,7 +66,7 @@ module.exports.bind = function (app) {
                     client_id: CLIENT_ID,
                     client_secret: APP_SECRET,
                     grant_type: 'authorization_code',
-					redirect_uri: 'http://' + SERVER_URL + ':' + app.get('port') + '/google/redir/' + userId
+					redirect_uri: 'http://' + SERVER_URL + ':' + app.get('port') + '/google/redir/' + userId,
                     code: code
                 }
             }, function (error, response, body) {
