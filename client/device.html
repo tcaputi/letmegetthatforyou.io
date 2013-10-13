@@ -12,18 +12,16 @@
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
 
-    <!-- Jquery -->
-    <script src="js/jquery.js"></script>
-
-
-    <!-- Boottrap core js-->
-    <script src="js/bootstrap.min.js"></script>
+    <!-- Custom styles for this template -->
+    <link href="signin.css" rel="stylesheet">
 
     <!-- AngularJS -->
     <script src="js/angular.min.js"></script>
-    <script src="js/controllers.js"></script>
-    
-    
+    <script src="js/controller.js"></script>
+    <!-- Jquery -->
+    <script src="js/jquery.js"></script>
+    <!-- Boottrap core js-->
+    <script src="js/bootstrap.min.js"></script>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -32,7 +30,7 @@
     <![endif]-->
   </head>
 
-  <body ng-app="lmgtfyModule" >
+  <body>
 
     <nav class="navbar navbar-inverse" role="navigation">
       <!-- Brand and toggle get grouped for better mobile display -->
@@ -45,21 +43,37 @@
         </button>
         <a class="navbar-brand" href="#">LetMeGetThatForYou.IO</a>
       </div>
-
-     
-      </div><!-- /.navbar-collapse -->
     </nav>
 
-    <div ng-view>
-        <div class="container" style="height:400px;">
-          <h1>
-            Well this was unexpected...
-          </h1>
-          <div class="alert alert-danger">
-            Its seems that there was an error or with your Javascript is turned off.
-          </div>
-        </div>
-    </div>
+    <div class="container" style="text-align:center;">
+
+      <div class="page-header">
+        <h1>Select a device</h1>
+      </div>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Device</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <a><span class="glyphicon glyphicon-hdd"> </span>Computer 1</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Computer 2</td>
+          </tr>
+          <tr>
+            <td>Computer 3</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div> <!-- /container -->
+
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

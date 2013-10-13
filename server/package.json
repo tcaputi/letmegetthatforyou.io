@@ -5,6 +5,10 @@
   "dependencies": {
 	"request": "*",
     "express": "*",
-    "mongodb": "*"
+	"querystring": "*",
+    "mongodb": "*",
+	"MD5": "*",
+	"sendgrid": "*",
+	"node-gcm" : "*"
   }
 }
