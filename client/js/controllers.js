@@ -30,13 +30,26 @@ lmgtfyModule.factory('lmgtfySharedService', function($rootScope, $http, $locatio
       console.log('intiated');*/
 
     sharedService.protect = function(){
-      if (sharedService.logged_in){
-        $location.path('/');
+      if (!sharedService.logged_in){
+        console.log('not authorized');
+        $location.path('/login');
       }
     }
 
     sharedService.authorize = function(options){
       $location.path(options.path);
+    }
+
+    sharedService.device = function(){
+      prototype.getFiles = function(id){
+
+      }
+    }
+
+    sharedService.file = function(){
+      prototype.email(){
+
+      }
     }
 
     return sharedService;
@@ -46,10 +59,11 @@ lmgtfyModule.config(
   ['$routeProvider', 
     function($routeProvider) {
       $routeProvider.
-        when('/', {templateUrl:'templates/home.html',   controller: home}).
-        when('/index', {templateUrl:'templates/home.html',   controller: home}).
+        when('/', {templateUrl:'templates/device.html',   controller: devices}).
+        when('/index', {templateUrl:'templates/device.html',   controller: devices}).
         when('/devices', {templateUrl: 'templates/device.html',   controller: devices}).
-        when('/files', {templateUrl: 'templates/file.html',   controller: files})
+        when('/files', {templateUrl: 'templates/file.html',   controller: files}).
+        when('/login', {templateUrl: 'templates/home.html',   controller: home})
     }
   ]
 );
@@ -65,8 +79,6 @@ lmgtfyModule.config(
 
 function home($scope, $location, lmgtfySharedService){
 
-
-
   $scope.login = function(){
     console.log('test');
     lmgtfySharedService.authorize({path:'devices'});
@@ -74,14 +86,24 @@ function home($scope, $location, lmgtfySharedService){
 }
 
 function devices($scope, $location, lmgtfySharedService){
-
-
-
+  lmgtfySharedService.protect();
   $scope.devices = [{},{},{}];
 
-
+  $scope.chooseDevice = function(){
+    console.log('device chosen');
+    $location.path('files');
+  }
 }
 
-function files(){
+function files($scope, $location, lmgtfySharedService){
+  lmgtfySharedService.protect();
+  $scope.files = [{},{},{},{},{}];
 
+  $scope.email(){
+
+  }
+
+  $scope.download(){
+    
+  }
 }
