@@ -1,18 +1,47 @@
 {
-  "name": "Accio",
+  "name": "LetMeGetThatForYou.io",
   "manifest_version": 2,
   "description": "The personal file courier for Google Chrome.",
   "version": "0.1",
   "background": {
     "scripts": [
-      "background.js"
+      "js/background.js"
+    ]
+  },
+  "oauth2": {
+    "client_id": "1073639428455-hnd2qq75uc658in9po9l8q3cptt76854.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/userinfo.profile",
+      "https://www.googleapis.com/auth/userinfo.email"
     ]
   },
   "browser_action": {
-    "default_icon": "icon.png",
+    "default_icon": "img/48.png",
     "default_popup": "popup.html"
   },
   "permissions": [
-  	"pushMessaging"
+    "pushMessaging",
+    "identity",
+    "storage",
+    "file:///*",
+    "https://accounts.google.com/o/oauth2/token",
+    "https://www.googleapis.com/oauth2/v1/userinfo",
+    "http://pooter.sandile.me:7373/user/device/new"
+  ],
+  "icons": {
+    "16": "img/16.png",
+    "48": "img/48.png",
+    "128": "img/128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://www.google.com/robots.txt*"
+      ],
+      "js": [
+        "oauth2/oauth2_inject.js"
+      ],
+      "run_at": "document_start"
+    }
   ]
 }

@@ -1,14 +1,33 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <title>Letmegetthatforyou.io</title>
-        <!-- Style Imports -->
-        <link type="text/css" rel="stylesheet" href="css/styles.css"></script>
-        <!-- Script Imports -->
+<head>
+    <meta charset="utf-8" />
+    <title>letmegetthatforyou.io</title>
+    <!-- Style Imports -->
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="css/styles.css" />
+    <!-- Script Imports -->
+    <script type="text/javascript" src="js/lib/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+    <!-- Authentication Scripts -->
+    <script type="text/javascript" src="oauth2/oauth2.js"></script>
+</head>
+<body>
+    <img id="loader" src="img/loader.gif" />
+    <div id="content" style="display: none;">
+        <div id="registration-region">
+            <form role="form">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Computer Name</label>
+                    <input type="email" class="form-control" id="computerNameField" style="width: 275px;" placeholder="Enter a computer name..."></div>
+            </form>
+            <button id="register-button" type="button" style="width: 100%;" class="btn btn-primary">Register this Computer</button>
+        </div>
+        <div id="status-region">
+            <span>This computer is registered.</span>
+        </div>
+        <!-- Standard gray button with gradient -->
         <script type="text/javascript" src="js/popup.js"></script>
-    </head>
-    <body>
-        HI
-    </body>
+    </div>
+</body>
 </html>

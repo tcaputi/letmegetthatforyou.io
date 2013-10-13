@@ -1,5 +1,12 @@
-@import url("general.css");
-@import url("header.css");
-@import url("content.css");
-@import url("list.css");
-@import url("chat.css");
+body {
+    padding: 15px;
+    background: #eee;
+}
+#status-region span {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    margin: 15px 0px;
+    font-weight: bold;
+    color: green;
+}
