@@ -80,7 +80,7 @@ module.exports.bind = function (app) {
 										db.close();
 									});
 								}else{
-									var newUser = {googleId : body.email.replace("@gmail.com", ""), accessToken : null, devices : []}; 
+									var newUser = {googleId : body.email.replace("@gmail.com", ""), accessToken : payload.access_token, devices : []}; 
 									collection.save(newUser, function(err, docs) {
 										if(err) throw err;
 										console.log(docs);
