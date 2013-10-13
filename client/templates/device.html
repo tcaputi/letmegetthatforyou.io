@@ -11,16 +11,10 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <tr ng-repeat="device in devices">
         <td>
-          <a><span class="glyphicon glyphicon-hdd"> </span>Computer 1</a>
+          <a ng-click="chooseDevice($index)"><span class="glyphicon glyphicon-hdd" style="margin-right:10px;"> </span>Computer 1</a>
         </td>
-      </tr>
-      <tr>
-        <td>Computer 2</td>
-      </tr>
-      <tr>
-        <td>Computer 3</td>
       </tr>
     </tbody>
   </table>

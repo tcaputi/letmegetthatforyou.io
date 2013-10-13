@@ -7,27 +7,13 @@ lmgtfyModule.factory('lmgtfySharedService', function($rootScope, $http, $locatio
 
     //final variables
     sharedService.session_data = {};
-    sharedService.api_url = "";
+    sharedService.api_url = "http://pootersandile.me:7373/";
 
     //variables
     sharedService.search_query = "";
-    sharedService.logged_in = true;
+    sharedService.logged_in = false;
 
-    /*$http({
-        url: sharedService.api_url+"account/session_data", 
-        method: "GET",
-      })
-      .success(function(data, status) {
-          sharedService.logged_in = true;
-          sharedService.session_data = data.status;
-          console.log(data);
-      })
-      .error(function(data, status) {
-          sharedService.logged_in = false;
-          console.log(data);
-      });
-
-      console.log('intiated');*/
+    SharedService.account = new account();
 
     sharedService.protect = function(){
       if (!sharedService.logged_in){
@@ -40,15 +26,99 @@ lmgtfyModule.factory('lmgtfySharedService', function($rootScope, $http, $locatio
       $location.path(options.path);
     }
 
-    sharedService.device = function(){
-      prototype.getFiles = function(id){
+    //account class
+    sharedService.account = function(){
 
+      this.authenticate();
+
+      data = [];
+
+      prototype.getSessionData = function(){
+        $http({
+          url: SharedService.api_url+'user/show/username/'+$scope.userid, 
+          method: "GET",
+        })
+        .success(function(data, status) {
+          console.log(data);
+          this.data = data;
+          sharedService.logged_in = true;
+        })
+        .error(function(data, status) {
+          $location.path('/');
+        });
+      }
+
+      prototype.authenticate = function(){
+
+        //google/auth
+        $http({
+          url: SharedService.api_url+'google/auth', 
+          method: "GET",
+        })
+        .success(function(data, status) {
+          console.log(data);
+          console.log('user logged in');
+          this.data = data;
+          sharedService.logged_in = true;
+        })
+        .error(function(data, status) {
+          console.log('did not log in');
+          $location.path('/');
+        });
+      } 
+    }
+
+    //device
+    sharedService.device = function(){
+
+      //push/ls
+      prototype.getFiles = function(id){
+        $http({
+          url: SharedService.api_url+'push/ls/path'+$scope.userid + '/ChromeInstanceId/'+sharedService.account.data.devices.chromeInstanceId, 
+          method: "GET",
+        })
+        .success(function(data, status) {
+          console.log($scope.user);
+        })
+        .error(function(data, status) {
+          $location.path('/');
+        });
       }
     }
 
+    //file
     sharedService.file = function(){
-      prototype.email(){
 
+      var data;
+
+      prototype.email = function(){
+        //
+        $http({
+          url: SharedService.api_url+'email/send', 
+          method: "POST",
+          data: {'googleId':SharedService.account.data.googleId}
+        })
+        .success(function(data, status) {
+          console.log($scope.user);
+        })
+        .error(function(data, status) {
+          $location.path('/');
+        });
+      }
+
+      prototype.download = function(){
+        //data
+
+        $http({
+          url: pnSharedService.api_url+'user/show/username/'+$scope.userid, 
+          method: "GET",
+        })
+        .success(function(data, status) {
+          console.log($scope.user);
+        })
+        .error(function(data, status) {
+          $location.path('/');
+        });
       }
     }
 
@@ -62,7 +132,7 @@ lmgtfyModule.config(
         when('/', {templateUrl:'templates/device.html',   controller: devices}).
         when('/index', {templateUrl:'templates/device.html',   controller: devices}).
         when('/devices', {templateUrl: 'templates/device.html',   controller: devices}).
-        when('/files', {templateUrl: 'templates/file.html',   controller: files}).
+        when('/devices/:id/files', {templateUrl: 'templates/file.html',   controller: files}).
         when('/login', {templateUrl: 'templates/home.html',   controller: home})
     }
   ]
@@ -89,9 +159,9 @@ function devices($scope, $location, lmgtfySharedService){
   lmgtfySharedService.protect();
   $scope.devices = [{},{},{}];
 
-  $scope.chooseDevice = function(){
-    console.log('device chosen');
-    $location.path('files');
+  $scope.chooseDevice = function(id){
+    $location.path('devices/'+id+'/files/');
+    console.log('devices/'+id+'/files/');
   }
 }
 
@@ -99,11 +169,11 @@ function files($scope, $location, lmgtfySharedService){
   lmgtfySharedService.protect();
   $scope.files = [{},{},{},{},{}];
 
-  $scope.email(){
-
+  $scope.email = function(id){
+    $scope.files[id].email();
   }
 
-  $scope.download(){
-    
+  $scope.download = function(id){
+    $scope.files[id].download();
   }
 }
