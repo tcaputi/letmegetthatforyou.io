@@ -9,6 +9,7 @@ app.use(express.session({secret: 'secret_key', store: MemStore({
   reapInterval: 60000 * 10
 })}));
 app.use(express.bodyParser());
+app.use(express.static(__dirname + '/public'));
 
 require("./services/").bind(app);
 
